@@ -1,81 +1,53 @@
-import React from 'react';
-import Link from 'next/link';
-import { MapPin, Phone, Mail, Facebook, Twitter, Linkedin } from 'lucide-react';
+import React from 'react'
+import Image from 'next/image'
 
 const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
-
-  const practiceAreas = [
-    'Mediation Services',
-    'Arbitration',
-    'Commercial Disputes',
-    'Family Dispute Resolution',
-    'Employment Disputes',
-    'Legal Consultation',
-  ];
-
-  const quickLinks = [
-    { name: 'About Us', href: '/about' },
-    { name: 'Services', href: '/services' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Testimonials', href: '/testimonials' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'Privacy Policy', href: '/privacy' },
-  ];
-
   return (
-    <footer className="bg-gray-800 text-white">
-      <div className="container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer className="bg-slate-900 text-white border-t border-slate-700">
+      <div className="container" style={{ paddingTop: '50px !important', paddingBottom: '64px' }}>
+        <div className="grid md:grid-cols-4 gap-12">
           {/* Company Info */}
-          <div>
-            <Link href="/" className="flex items-center mb-4">
-              <img
-                src="/images/jurice-source-LOGO.png"
-                alt="Juris Source"
-                className="h-12 w-auto"
+          <div className="space-y-6">
+            {/* Logo */}
+            <div className="flex justify-center mb-6">
+              <Image
+                src="/images/js-logo.png"
+                alt="Juris Source Logo"
+                width={200}
+                height={200}
+                className="w-50 h-50 object-contain"
               />
-            </Link>
-            <p className="text-gray-300 mb-4">
-              Professional dispute resolution and legal services with experienced attorneys 
-              dedicated to achieving favorable outcomes for our clients.
-            </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-300 hover:text-gold-400 transition-colors">
-                <Facebook size={20} />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-gold-400 transition-colors">
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-gold-400 transition-colors">
-                <Linkedin size={20} />
-              </a>
             </div>
+            
+            {/* Description */}
+            <p className="text-slate-300 text-sm leading-relaxed text-justify">
+              Professional legal services with expertise in debt recovery, arbitration, 
+              taxation, commercial disputes, and comprehensive legal solutions.
+            </p>
           </div>
 
           {/* Practice Areas */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-gold-400">Our Services</h3>
-            <ul className="space-y-2">
-              {practiceAreas.map((area, index) => (
+            <h4 className="font-semibold text-lg mb-4 text-gold-400">Practice Areas</h4>
+            <ul className="space-y-2 text-sm">
+              {[
+                'Debt Recovery',
+                'Arbitration', 
+                'Taxation',
+                'Civil Litigation',
+                'Commercial Dispute',
+                'Armed Force Tribunal',
+                'Contract Management',
+                'Real Estate',
+                'Insolvency and Bankruptcy',
+                'Banking and Finance',
+                'Intellectual Property'
+              ].map((area, index) => (
                 <li key={index}>
-                  <Link href="/services" className="text-gray-300 hover:text-white transition-colors">
+                  <a href={`/practice-areas/${area.toLowerCase().replace(/\s+/g, '-')}`} 
+                     className="text-slate-300 hover:text-gold-400 transition-colors">
                     {area}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4 text-gold-400">Quick Links</h3>
-            <ul className="space-y-2">
-              {quickLinks.map((link, index) => (
-                <li key={index}>
-                  <Link href={link.href} className="text-gray-300 hover:text-white transition-colors">
-                    {link.name}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -83,55 +55,65 @@ const Footer: React.FC = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-gold-400">Contact Info</h3>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-2">
-                <MapPin size={18} className="text-gold-400 mt-1 flex-shrink-0" />
-                <div>
-                  <address className="text-gray-300 not-italic mb-2">
-                    <strong>Delhi Office:</strong><br />
-                    37, Ground Floor, Site - 2<br />
-                    Block C, Vikaspuri<br />
-                    Delhi, 110018
-                  </address>
-                  <address className="text-gray-300 not-italic">
-                    <strong>Greater Noida Office:</strong><br />
-                    Plot No 7, E-Block<br />
-                    Sector 2, Greater Noida West<br />
-                    201207
-                  </address>
-                </div>
+            <h4 className="font-semibold text-lg mb-4 text-gold-400">Contact Info</h4>
+            <div className="space-y-3 text-sm">
+              <div className="space-y-1">
+                <p className="text-slate-300 font-medium">Delhi Office</p>
+                <p className="text-slate-400">37, Ground Floor, Site II, Vikaspuri<br />New Delhi - 110018</p>
               </div>
-              <div className="flex items-center space-x-2">
-                <Phone size={18} className="text-gold-400" />
-                <a href="tel:+918368980930" className="text-gray-300 hover:text-white">
-                  +91 83689 80930
-                </a>
+              <div className="space-y-1">
+                <p className="text-slate-300 font-medium">Greater Noida Office</p>
+                <p className="text-slate-400">Plot No 7, E-Block<br />Sector 2, Greater Noida West - 201207</p>
               </div>
-              <div className="flex items-center space-x-2">
-                <Mail size={18} className="text-gold-400" />
-                <a href="mailto:jurissource@gmail.com" className="text-gray-300 hover:text-white">
-                  jurissource@gmail.com
-                </a>
+              <div className="pt-2 space-y-1">
+                <p className="text-slate-300">
+                  <a href="tel:+918368980930" className="hover:text-gold-400 transition-colors">
+                    +91 83689 80930
+                  </a>
+                </p>
+                <p className="text-slate-300">
+                  <a href="mailto:jurissource@gmail.com" className="hover:text-gold-400 transition-colors">
+                    jurissource@gmail.com
+                  </a>
+                </p>
               </div>
+            </div>
+          </div>
+
+          {/* Office Hours */}
+          <div>
+            <h4 className="font-semibold text-lg mb-4 text-gold-400">Office Hours</h4>
+            <div className="space-y-2 text-sm text-slate-300">
+              <p>Monday - Saturday</p>
+              <p className="text-gold-400 font-medium">09:00 - 18:00</p>
+              <p className="text-xs text-slate-400 mt-4">
+                Sunday: By appointment only
+              </p>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-700 mt-8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-300 text-sm">
-              © {currentYear} Juris Source - The Dispute Resolution Firm. All rights reserved.
+        <div className="border-t border-slate-700 mt-8 pt-8">
+          <div className="flex justify-center">
+            <p className="text-slate-400 text-sm">
+              © 2025 Juris Source. All rights reserved.
             </p>
-            <p className="text-gray-300 text-sm mt-2 md:mt-0">
-              Professional dispute resolution you can trust.
+          </div>
+          
+          {/* Legal Disclaimer */}
+          <div className="mt-6 pt-6 border-t border-slate-800">
+            <p className="legal-notice text-center">
+              This website follows the relevant rules of the Bar Council of India. The contents of this website 
+              are meant to provide necessary information about Juris Source and updates on relevant laws in India. 
+              The information provided herein is not legal advice and the Firm disclaims all liability arising 
+              from reliance placed by the user on the information contained therein.
             </p>
           </div>
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

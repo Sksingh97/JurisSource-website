@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shield Background -->
+  <path d="M40 5 L65 15 L65 45 Q65 65 40 75 Q15 65 15 45 L15 15 Z" 
+        fill="#d97706" stroke="#15803d" stroke-width="2"/>
+  
+  <!-- Inner Shield -->
+  <path d="M40 10 L60 18 L60 42 Q60 58 40 68 Q20 58 20 42 L20 18 Z" 
+        fill="#f59e0b" stroke="#15803d" stroke-width="1"/>
+  
+  <!-- JS Letters -->
+  <text x="30" y="35" font-family="serif" font-size="14" font-weight="bold" fill="#15803d">J</text>
+  <text x="42" y="35" font-family="serif" font-size="14" font-weight="bold" fill="#15803d">S</text>
+  
+  <!-- Left Scale -->
+  <g transform="translate(25, 45)">
+    <line x1="0" y1="0" x2="0" y2="-8" stroke="#15803d" stroke-width="1.5"/>
+    <line x1="-8" y1="0" x2="8" y2="0" stroke="#15803d" stroke-width="1.5"/>
+    <circle cx="-6" cy="3" r="4" fill="none" stroke="#15803d" stroke-width="1"/>
+    <circle cx="6" cy="3" r="4" fill="none" stroke="#15803d" stroke-width="1"/>
+  </g>
+  
+  <!-- Right Scale -->
+  <g transform="translate(55, 45)">
+    <line x1="0" y1="0" x2="0" y2="-8" stroke="#15803d" stroke-width="1.5"/>
+    <line x1="-8" y1="0" x2="8" y2="0" stroke="#15803d" stroke-width="1.5"/>
+    <circle cx="-6" cy="3" r="4" fill="none" stroke="#15803d" stroke-width="1"/>
+    <circle cx="6" cy="3" r="4" fill="none" stroke="#15803d" stroke-width="1"/>
+  </g>
+  
+  <!-- Connecting bar for scales -->
+  <line x1="25" y1="37" x2="55" y2="37" stroke="#15803d" stroke-width="1.5"/>
+</svg>

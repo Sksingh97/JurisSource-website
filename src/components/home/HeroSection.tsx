@@ -1,67 +1,114 @@
-import React from 'react';
-import Link from 'next/link';
-import { ArrowRight, Shield, Users, Award } from 'lucide-react';
+import React from 'react'
+import Link from 'next/link'
+import { ArrowRight, Phone, CheckCircle } from 'lucide-react'
 
 const HeroSection: React.FC = () => {
   return (
-    <section className="relative bg-white">
+    <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-primary-900 text-white overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-gradient-to-r from-primary-900/20 to-gold-500/20"></div>
+      <div className="absolute inset-0 opacity-10">
+        <div 
+          className="w-full h-full" 
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpolygon points='36,34 24,34 20,30 20,18 24,14 36,14 40,18 40,30'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+          }}
+        ></div>
+      </div>
+      
       <div className="relative container section-padding">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
-            <h1 className="text-4xl lg:text-6xl font-bold leading-tight text-gray-900">
-              Expert Dispute Resolution Services You Can 
-              <span className="text-accent-600"> Trust</span>
-            </h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
-              With extensive experience in alternative dispute resolution, our expert attorneys 
-              are dedicated to resolving conflicts efficiently and achieving the best possible 
-              outcomes for our clients in Delhi and Greater Noida.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/contact" className="bg-accent-600 hover:bg-accent-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 group inline-flex items-center">
-                Get Free Consultation
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link href="/services" className="border-2 border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3 rounded-lg font-semibold transition-colors duration-200">
-                Our Services
-              </Link>
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Content */}
+          <div className="space-y-8 animate-fade-in">
+            <div className="space-y-4">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+                Welcome to{' '}
+                <span className="text-gradient bg-gradient-to-r from-gold-400 to-gold-200 bg-clip-text text-transparent">
+                  Juris Source
+                </span>
+              </h1>
+              <p className="text-xl text-slate-300 leading-relaxed max-w-2xl">
+                Professional legal services with proven expertise in debt recovery, arbitration, 
+                taxation, commercial disputes, and comprehensive legal solutions for individuals and businesses.
+              </p>
             </div>
-            
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-gray-200">
-              <div className="text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <Shield className="h-8 w-8 text-gold-600" />
+
+            {/* Key Features */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              {[
+                'Expert Legal Consultation',
+                'Proven Track Record',
+                'Comprehensive Solutions',
+                'Client-Focused Service'
+              ].map((feature, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <CheckCircle className="h-5 w-5 text-gold-400 flex-shrink-0" />
+                  <span className="text-slate-200">{feature}</span>
                 </div>
-                <div className="text-3xl font-bold text-gray-900">15+</div>
-                <div className="text-sm text-gray-600">Years Experience</div>
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <Users className="h-8 w-8 text-gold-600" />
+              ))}
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link href="/contact" className="btn btn-gold inline-flex items-center">
+                Get Free Consultation
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+              <a 
+                href="tel:+918368980930" 
+                className="btn btn-secondary inline-flex items-center border-white text-white hover:bg-white hover:text-slate-900"
+              >
+                <Phone className="mr-2 h-5 w-5" />
+                Call +91 83689 80930
+              </a>
+            </div>
+
+            {/* Trust Indicators */}
+            <div className="pt-8 border-t border-slate-700">
+              <div className="flex flex-wrap items-center gap-8 text-sm text-slate-400">
+                <div className="flex items-center space-x-2">
+                  <span className="text-gold-400 font-bold text-lg">15+</span>
+                  <span>Years Experience</span>
                 </div>
-                <div className="text-3xl font-bold text-gray-900">500+</div>
-                <div className="text-sm text-gray-600">Disputes Resolved</div>
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center mb-2">
-                  <Award className="h-8 w-8 text-gold-600" />
+                <div className="flex items-center space-x-2">
+                  <span className="text-gold-400 font-bold text-lg">500+</span>
+                  <span>Cases Resolved</span>
                 </div>
-                <div className="text-3xl font-bold text-gray-900">98%</div>
-                <div className="text-sm text-gray-600">Success Rate</div>
+                <div className="flex items-center space-x-2">
+                  <span className="text-gold-400 font-bold text-lg">99%</span>
+                  <span>Client Satisfaction</span>
+                </div>
               </div>
             </div>
           </div>
-          
+
+          {/* Visual Element */}
           <div className="relative">
-            <div className="aspect-square bg-gray-50 rounded-2xl p-8 border border-gray-200 shadow-lg">
-              <div className="h-full bg-gradient-to-br from-accent-50 to-gold-50 rounded-xl flex items-center justify-center">
-                <div className="text-center">
-                  <Shield className="h-24 w-24 text-accent-600 mx-auto mb-4" />
-                  <h3 className="text-2xl font-semibold mb-2 text-gray-900">Expert Dispute Resolution</h3>
-                  <p className="text-gray-600">
-                    Trusted by clients for effective conflict resolution
+            <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+              <div className="text-center space-y-6">
+                <div className="w-20 h-20 bg-gold-500 rounded-full flex items-center justify-center mx-auto">
+                  <span className="text-white font-bold text-2xl">JS</span>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-2">Expert Legal Advice</h3>
+                  <p className="text-slate-300">
+                    Founded by Advocate Rashmi Singh, we provide comprehensive legal solutions 
+                    with the highest level of professionalism and transparency.
                   </p>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center py-3 border-b border-white/20">
+                    <span className="text-slate-300">Debt Recovery</span>
+                    <span className="text-gold-400">Expert</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 border-b border-white/20">
+                    <span className="text-slate-300">Commercial Disputes</span>
+                    <span className="text-gold-400">Specialist</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <span className="text-slate-300">Legal Consultation</span>
+                    <span className="text-gold-400">24/7</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -69,7 +116,7 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default HeroSection;
+export default HeroSection

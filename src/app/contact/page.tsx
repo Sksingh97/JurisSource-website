@@ -1,410 +1,245 @@
 'use client';
 
 import React, { useState } from 'react';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle, MessageSquare } from 'lucide-react';
-import { apiService } from '@/lib/api';
-import { ContactForm } from '@/types';
-
-const contactSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
-  phone: z.string().optional(),
-  subject: z.string().min(5, 'Subject must be at least 5 characters'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
-});
+import { Phone, Mail, MapPin, Clock, Send } from 'lucide-react';
 
 export default function ContactPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [submitError, setSubmitError] = useState('');
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<ContactForm>({
-    resolver: zodResolver(contactSchema),
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    legalMatter: '',
+    message: ''
   });
 
-  const onSubmit = async (data: ContactForm) => {
-    setIsSubmitting(true);
-    setSubmitError('');
-    
-    try {
-      const success = await apiService.submitContactForm(data);
-      if (success) {
-        setSubmitSuccess(true);
-        reset();
-      } else {
-        setSubmitError('Failed to send message. Please try again or call us directly.');
-      }
-    } catch (error) {
-      console.error('Contact form submission error:', error);
-      setSubmitError('An error occurred. Please try again or contact us directly.');
-    } finally {
-      setIsSubmitting(false);
-    }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission here
+    console.log('Form submitted:', formData);
   };
 
-  const contactInfo = [
-    {
-      icon: <Phone className="h-8 w-8" />,
-      title: 'Phone',
-      primary: '+91 83689 80930',
-      secondary: 'Call anytime',
-      action: 'tel:+918368980930',
-      description: 'Mon-Fri: 8am-6pm, Sat: 9am-1pm'
-    },
-    {
-      icon: <Mail className="h-8 w-8" />,
-      title: 'Email',
-      primary: 'jurissource@gmail.com',
-      secondary: '+91 83689 80930',
-      action: 'mailto:jurissource@gmail.com',
-      description: 'We respond within 24 hours'
-    },
-    {
-      icon: <MapPin className="h-8 w-8" />,
-      title: 'Delhi Office',
-      primary: '37, Ground Floor, Site - 2, Block C',
-      secondary: 'Vikaspuri, Delhi, 110018',
-      action: '#',
-      description: 'Free parking available'
-    },
-    {
-      icon: <Clock className="h-8 w-8" />,
-      title: 'Business Hours',
-      primary: 'Monday - Friday: 8:00 AM - 6:00 PM',
-      secondary: 'Saturday: 9:00 AM - 1:00 PM',
-      action: '#',
-      description: 'Emergency consultations available'
-    }
-  ];
-
-  const faqs = [
-    {
-      question: 'Do you offer free consultations?',
-      answer: 'Yes, we offer free initial consultations for most practice areas. This allows us to understand your case and discuss how we can help.'
-    },
-    {
-      question: 'How quickly will you respond to my inquiry?',
-      answer: 'We typically respond to all inquiries within 24 hours. For urgent matters, please call us directly for immediate assistance.'
-    },
-    {
-      question: 'What should I bring to my first consultation?',
-      answer: 'Bring any relevant documents, correspondence, contracts, or evidence related to your legal matter. We\'ll provide a specific list based on your case type.'
-    },
-    {
-      question: 'Do you handle cases outside your local area?',
-      answer: 'Yes, depending on the practice area and case type. We can handle many matters remotely or associate with local counsel when necessary.'
-    }
-  ];
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   return (
-    <main>
-      <Header />
-      
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-primary-900 to-primary-700 text-white section-padding">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-              Contact Us
-            </h1>
-            <p className="text-xl text-primary-100 leading-relaxed">
-              Ready to discuss your legal needs? Get in touch with our experienced 
-              legal team for a free consultation. We're here to help you navigate 
-              your legal challenges.
+      <section className="bg-gradient-to-r from-primary-600 to-primary-700 text-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
+            <p className="text-xl text-green-100 max-w-3xl mx-auto">
+              Get in touch with our legal experts for professional consultation and legal services
             </p>
           </div>
         </div>
       </section>
 
-      {/* Contact Information */}
-      <section className="section-padding bg-gray-50">
-        <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {contactInfo.map((item, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-lg p-6 text-center">
-                <div className="text-primary-600 flex justify-center mb-4">
-                  {item.icon}
-                </div>
-                <h3 className="text-lg font-semibold text-primary-900 mb-3">
-                  {item.title}
-                </h3>
-                {item.action.startsWith('#') ? (
-                  <div className="space-y-1 mb-3">
-                    <p className="font-medium text-gray-800">{item.primary}</p>
-                    <p className="text-gray-600">{item.secondary}</p>
-                  </div>
-                ) : (
-                  <div className="space-y-1 mb-3">
-                    <a href={item.action} className="block text-primary-600 font-medium hover:text-primary-700">
-                      {item.primary}
-                    </a>
-                    {item.secondary && (
-                      <p className="text-gray-600">{item.secondary}</p>
-                    )}
-                  </div>
-                )}
-                <p className="text-sm text-gray-500">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Form and Map */}
-      <section className="section-padding bg-white">
-        <div className="container">
+      {/* Contact Information & Form Section */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
+            
+            {/* Contact Information */}
             <div>
-              <h2 className="text-3xl font-bold text-primary-900 mb-6">
-                Send us a Message
-              </h2>
-              
-              {submitSuccess ? (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-                  <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                  <h3 className="text-2xl font-semibold text-green-700 mb-2">
-                    Message Sent Successfully!
-                  </h3>
-                  <p className="text-gray-600 mb-6">
-                    Thank you for contacting us. We'll get back to you within 24 hours.
-                  </p>
-                  <button
-                    onClick={() => setSubmitSuccess(false)}
-                    className="btn-primary"
-                  >
-                    Send Another Message
-                  </button>
+              <h2 className="text-3xl font-bold text-dark-green-900 mb-8">Get in Touch</h2>
+              <p className="text-lg text-dark-green-600 mb-8">
+                Ready to discuss your legal matters? Contact Juris Source today for expert legal consultation 
+                and professional dispute resolution services.
+              </p>
+
+              <div className="space-y-6">
+                {/* Phone */}
+                <div className="flex items-start space-x-4">
+                  <div className="bg-primary-100 p-3 rounded-lg">
+                    <Phone className="text-primary-600" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-dark-green-900 mb-1">Phone</h3>
+                    <p className="text-dark-green-600">+91-83689 80930</p>
+                  </div>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        {...register('name')}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                        placeholder="Your full name"
-                      />
-                      {errors.name && (
-                        <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
-                      )}
-                    </div>
-                    <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        {...register('phone')}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                        placeholder="(123) 456-7890"
-                      />
-                    </div>
-                  </div>
 
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      {...register('email')}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                      placeholder="your.email@example.com"
-                    />
-                    {errors.email && (
-                      <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-                    )}
+                {/* Email */}
+                <div className="flex items-start space-x-4">
+                  <div className="bg-primary-100 p-3 rounded-lg">
+                    <Mail className="text-primary-600" size={24} />
                   </div>
-
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                      Subject *
+                    <h3 className="font-semibold text-dark-green-900 mb-1">Email</h3>
+                    <p className="text-dark-green-600">jurissource@gmail.com</p>
+                  </div>
+                </div>
+
+                {/* Location */}
+                <div className="flex items-start space-x-4">
+                  <div className="bg-primary-100 p-3 rounded-lg">
+                    <MapPin className="text-primary-600" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-dark-green-900 mb-1">Office Locations</h3>
+                    <p className="text-dark-green-600">Delhi & Greater Noida</p>
+                  </div>
+                </div>
+
+                {/* Office Hours */}
+                <div className="flex items-start space-x-4">
+                  <div className="bg-primary-100 p-3 rounded-lg">
+                    <Clock className="text-primary-600" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-dark-green-900 mb-1">Office Hours</h3>
+                    <p className="text-dark-green-600">Mon – Sat: 09:00-18:00</p>
+                    <p className="text-dark-green-600">Sunday: Closed</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Form */}
+            <div className="bg-green-50 p-8 rounded-xl border border-green-100">
+              <h3 className="text-2xl font-bold text-dark-green-900 mb-6">Send us a Message</h3>
+              
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="firstName" className="block text-sm font-medium text-dark-green-700 mb-2">
+                      First Name *
                     </label>
                     <input
                       type="text"
-                      id="subject"
-                      {...register('subject')}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                      placeholder="What can we help you with?"
+                      id="firstName"
+                      name="firstName"
+                      required
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-green-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-colors"
+                      placeholder="Enter your first name"
                     />
-                    {errors.subject && (
-                      <p className="mt-1 text-sm text-red-600">{errors.subject.message}</p>
-                    )}
                   </div>
-
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                      Message *
+                    <label htmlFor="lastName" className="block text-sm font-medium text-dark-green-700 mb-2">
+                      Last Name *
                     </label>
-                    <textarea
-                      id="message"
-                      rows={6}
-                      {...register('message')}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                      placeholder="Please describe your legal matter or question in detail..."
-                    ></textarea>
-                    {errors.message && (
-                      <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
-                    )}
+                    <input
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      required
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-green-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-colors"
+                      placeholder="Enter your last name"
+                    />
                   </div>
+                </div>
 
-                  {submitError && (
-                    <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                      <p className="text-sm text-red-600">{submitError}</p>
-                    </div>
-                  )}
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-dark-green-700 mb-2">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-green-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-colors"
+                    placeholder="Enter your email address"
+                  />
+                </div>
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-dark-green-700 mb-2">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-green-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-colors"
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="legalMatter" className="block text-sm font-medium text-dark-green-700 mb-2">
+                    Legal Matter Type
+                  </label>
+                  <select
+                    id="legalMatter"
+                    name="legalMatter"
+                    value={formData.legalMatter}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-green-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-colors"
                   >
-                    {isSubmitting ? (
-                      <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        Send Message
-                        <Send className="ml-2 h-5 w-5" />
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
-            </div>
+                    <option value="">Select legal matter type</option>
+                    <option value="debt-recovery">Debt Recovery</option>
+                    <option value="arbitration">Arbitration</option>
+                    <option value="taxation">Taxation</option>
+                    <option value="commercial-dispute">Commercial Dispute</option>
+                    <option value="civil-litigation">Civil Litigation</option>
+                    <option value="contract-management">Contract Management</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
 
-            {/* Map and Office Info */}
-            <div>
-              <h2 className="text-3xl font-bold text-primary-900 mb-6">
-                Visit Our Offices
-              </h2>
-              
-              {/* Office Locations */}
-              <div className="grid md:grid-cols-2 gap-6 mb-6">
-                <div className="bg-white border border-gray-200 rounded-lg p-6">
-                  <h3 className="text-xl font-semibold text-primary-900 mb-3 flex items-center">
-                    <MapPin className="h-5 w-5 text-gold-500 mr-2" />
-                    Delhi Office
-                  </h3>
-                  <div className="text-gray-700 space-y-1">
-                    <p>37, Ground Floor, Site - 2</p>
-                    <p>Block C, Vikaspuri</p>
-                    <p>Delhi, 110018</p>
-                  </div>
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-dark-green-700 mb-2">
+                    Message *
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={6}
+                    required
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-green-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-colors resize-vertical"
+                    placeholder="Please describe your legal matter and how we can help you..."
+                  />
                 </div>
-                
-                <div className="bg-white border border-gray-200 rounded-lg p-6">
-                  <h3 className="text-xl font-semibold text-primary-900 mb-3 flex items-center">
-                    <MapPin className="h-5 w-5 text-gold-500 mr-2" />
-                    Greater Noida Office
-                  </h3>
-                  <div className="text-gray-700 space-y-1">
-                    <p>Plot No 7, E-Block</p>
-                    <p>Sector 2, Greater Noida West</p>
-                    <p>201207</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Placeholder for Google Maps */}
-              <div className="bg-gray-200 rounded-lg h-64 mb-6 flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-2" />
-                  <p className="text-gray-600">Interactive Google Maps would be embedded here</p>
-                  <p className="text-sm text-gray-500 mt-1">Multiple Office Locations</p>
-                </div>
-              </div>
 
-              <div className="bg-primary-50 rounded-lg p-6 mb-6">
-                <h3 className="text-xl font-semibold text-primary-900 mb-4">
-                  Office Information
-                </h3>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-gold-500 mr-2" />
-                    Free parking available
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-gold-500 mr-2" />
-                    Wheelchair accessible
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-gold-500 mr-2" />
-                    Conference rooms available
-                  </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-gold-500 mr-2" />
-                    Virtual consultations offered
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h3 className="text-xl font-semibold text-primary-900 mb-4 flex items-center">
-                  <MessageSquare className="h-6 w-6 mr-2" />
-                  Emergency Contact
-                </h3>
-                <p className="text-gray-700 mb-3">
-                  For urgent legal matters that require immediate attention:
-                </p>
-                <div className="space-y-2">
-                  <a href="tel:+918368980930" className="block text-primary-600 font-semibold hover:text-primary-700">
-                    Emergency Line: +91 83689 80930
-                  </a>
-                  <p className="text-sm text-gray-500">
-                    Available 24/7 for existing clients and emergency situations
-                  </p>
-                </div>
-              </div>
+                <button
+                  type="submit"
+                  className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center"
+                >
+                  Send Message
+                  <Send className="ml-2" size={20} />
+                </button>
+              </form>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="section-padding bg-gray-50">
-        <div className="container">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold text-primary-900 text-center mb-12">
-              Frequently Asked Questions
-            </h2>
-            <div className="space-y-6">
-              {faqs.map((faq, index) => (
-                <div key={index} className="bg-white rounded-lg shadow-lg p-6">
-                  <h3 className="text-lg font-semibold text-primary-900 mb-3">
-                    {faq.question}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {faq.answer}
-                  </p>
-                </div>
-              ))}
+      {/* Professional Notice */}
+      <section className="bg-green-50 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-xl p-8 border border-green-100">
+            <h3 className="text-xl font-bold text-dark-green-900 mb-4">Professional Legal Services</h3>
+            <p className="text-dark-green-600 leading-relaxed">
+              <strong>Advocate Rashmi Singh</strong> and the Juris Source team provide comprehensive legal services 
+              in debt recovery, arbitration, taxation, and commercial disputes. We handle all types of civil litigation 
+              matters with professional expertise and client-focused approach.
+            </p>
+            <div className="mt-6 p-4 bg-gold-50 rounded-lg border border-gold-200">
+              <p className="text-sm text-dark-green-600">
+                <strong>Note:</strong> Initial consultation fees may apply. All communications are confidential 
+                and subject to attorney-client privilege. Please provide accurate information for effective legal assistance.
+              </p>
             </div>
           </div>
         </div>
       </section>
-
-      <Footer />
-    </main>
+    </div>
   );
 }

@@ -1,29 +1,38 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
-  title: 'Juris Source - The Dispute Resolution Firm',
-  description: 'Professional dispute resolution and legal services in Delhi and Greater Noida. Experienced attorneys specializing in alternative dispute resolution.',
-  keywords: 'dispute resolution, legal services, attorney, lawyer, mediation, arbitration, Delhi, Greater Noida',
-  authors: [{ name: 'Juris Source' }],
-  openGraph: {
-    title: 'Juris Source - The Dispute Resolution Firm',
-    description: 'Professional dispute resolution and legal services',
-    type: 'website',
-  },
-}
+  title: "JurisSource - The Dispute Resolutions Firm",
+  description: "Expert legal services in debt recovery, taxation, commercial disputes, and more. Founded by Advocate Rashmi Singh, providing comprehensive legal solutions.",
+  keywords: "law firm, legal services, debt recovery, taxation, commercial disputes, arbitration, civil litigation, legal consultation",
+  authors: [{ name: "JurisSource" }],
+  robots: "index, follow",
+};
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.variable} font-sans antialiased`}>
+        <div className="min-h-screen flex flex-col">
+          <Header />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+        </div>
+      </body>
     </html>
-  )
+  );
 }
